@@ -8,6 +8,7 @@ import { ProductService } from './services/product.service';
 import {Routes,RouterModule} from '@angular/router';
 import { ProductCategoryComponent } from './components/product-category/product-category.component';
 import { SearchComponent } from './components/search/search.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 
 
 
@@ -16,7 +17,8 @@ import { SearchComponent } from './components/search/search.component';
     AppComponent,
     ProductListComponent,
     ProductCategoryComponent,
-    SearchComponent
+    SearchComponent,
+    ProductDetailsComponent
   ],
   imports: [
     BrowserModule,
