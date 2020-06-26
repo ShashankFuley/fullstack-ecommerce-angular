@@ -15,14 +15,19 @@ export class ProductService {
 
   constructor(private httpClient: HttpClient) {}
 
+  //This method will be called by ProductDetailsComponent
   getProductById(id: number):Observable<Product> {
     const searchUrl:string = `${this.baseUrl}/products/${id}` ;
     return this.httpClient.get<Product>(searchUrl);
   }
 
-  getProductList(theCategoryId:number):Observable<Product[]>{
-    const searchUrl:string = this.baseUrl+'/products/search/findByCategoryId?id='+theCategoryId;
-    return this.getProducts(searchUrl);
+  //This method will be called by side bar
+  getProductListPaginated(thePage:number,
+                          theSize:number,
+                          theCategoryId:number):Observable<GetProductResponse>{
+    const searchUrl:string = `${this.baseUrl}/products/search/findByCategoryId?id=${theCategoryId}`
+                              +`&page=${thePage}&size=${theSize}`;
+    return this.httpClient.get<GetProductResponse>(searchUrl);
   }
 
   getProductCategory():Observable<ProductCategory[]>{
@@ -32,20 +37,28 @@ export class ProductService {
     );
   }
 
-  getProductBySearch(theKeyword:string){
-    const searchUrl:string = `${this.baseUrl}/products/search/findByNameContaining?name=${theKeyword}`;
+  getProductBySearch(page:number,size:number,theKeyword:string):Observable<GetProductResponse>{
+    const searchUrl:string = `${this.baseUrl}/products/search/findByNameContaining?`
+                           + `name=${theKeyword}&page=${page}&size=${size}`;
     return this.getProducts(searchUrl);
   }
 
   private getProducts(searchUrl: string) {
-    return this.httpClient.get<GetProductResponse>(searchUrl).pipe(
-      map(response => response._embedded.products)
-    );
+    //return this.httpClient.get<GetProductResponse>(searchUrl).pipe(
+    //  map(response => response._embedded.products)
+    //);
+    return this.httpClient.get<GetProductResponse>(searchUrl);
   }
 }
 interface GetProductResponse{
   _embedded: {
     products:Product[];
+  },
+  page:{
+    "size" : number;
+    "totalElements" : number,
+    "totalPages" : number,
+    "number" : number
   }
 }
 interface GetCategoryResponse{
