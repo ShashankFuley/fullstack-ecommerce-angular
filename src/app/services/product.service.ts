@@ -11,7 +11,7 @@ import { ProductCategory } from '../common/product-category';
 export class ProductService {
   
 
-  private baseUrl = "http://localhost:8080/api";
+  private baseUrl = "http://fullstackecommerce-env-1.eba-3qzspy8r.us-east-2.elasticbeanstalk.com/api";
 
   constructor(private httpClient: HttpClient) {}
 
